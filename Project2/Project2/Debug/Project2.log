@@ -1,0 +1,14 @@
+﻿  main.cpp
+e:\opengl\finalproject\project2\project2\objloader.h(39): warning C4018: “<”: 有符号/无符号不匹配
+e:\opengl\finalproject\project2\project2\objloader.h(66): warning C4244: “初始化”: 从“double”转换到“GLfloat”，可能丢失数据
+e:\opengl\finalproject\project2\project2\objloader.h(79): warning C4018: “<”: 有符号/无符号不匹配
+e:\opengl\finalproject\project2\project2\main.cpp(27): warning C4305: “初始化”: 从“double”到“float”截断
+e:\opengl\finalproject\project2\project2\main.cpp(251): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\opengl\finalproject\project2\project2\main.cpp(252): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\opengl\finalproject\project2\project2\main.cpp(253): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\opengl\finalproject\project2\project2\main.cpp(254): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\opengl\finalproject\project2\project2\main.cpp(264): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\opengl\finalproject\project2\project2\main.cpp(265): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\opengl\finalproject\project2\project2\main.cpp(266): warning C4305: “参数”: 从“double”到“GLfloat”截断
+e:\opengl\finalproject\project2\project2\main.cpp(267): warning C4305: “参数”: 从“double”到“GLfloat”截断
+  Project2.vcxproj -> E:\opengl\finalproject\Project2\Debug\Project2.exe
