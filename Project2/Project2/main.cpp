@@ -21,11 +21,22 @@ static GLint windowWidthH = 800, windowHeightH = 800;
 //纹理ID
 GLuint texName[50];
 
-double eye[] = { -17, 1.5, -19.5 };
-double center[] = { -17, 1.5, -11.5 };
+double eye[] = { 0, 1.5, -8 };
+double center[] = { 0, 1.5, 0 };
 //视角方向
-float d[] = { 0,0,-0.08 };
+double frotate1 = 0.0;
+double frotate2 = 0.0;
 double direction = 0;//站立位置及前进方向；
+
+ObjLoader chair;
+ObjLoader building1;
+ObjLoader building2;
+ObjLoader building3;
+ObjLoader lamp;
+ObjLoader teachhall;
+ObjLoader base;
+ObjLoader leaves;
+ObjLoader wheel;
 
 
 int power_of_two(int n)
@@ -45,7 +56,7 @@ void Draw_SolidCube(GLuint *tex)
 	{ 0.5, 0.5,-0.5 },{ 0.5,-0.5,-0.5 },{ -0.5,-0.5,-0.5 },{ -0.5,0.5,-0.5 } };
 	//the 6 six face
 	//顺序是正面、右面、后面、左面、上面、下面
-	int face[6][4] = { { 0,1,2,3 },{ 0,1,5,4 },{ 1,5,6,2 },{ 2,3,7,6 },{ 0,3,7,4 },{ 4,5,6,7 } };
+	int face[6][4] = { { 0,1,2,3 },{ 4,5,1,0 },{ 7,6,5,4 },{ 3,2,6,7 },{ 0,3,7,4 },{ 1,5,6,2 } };
 	
 
 	//draw 6 faces
@@ -172,14 +183,14 @@ void Draw_Wall()
 	glBegin(GL_QUADS);
 
 	//左边
-	glTexCoord2f(1.0, 0.0); glVertex3f(-40.0, 0.0, 40.0);
-	glTexCoord2f(0.0, 0.0); glVertex3f(-40.0, 0.0, -40.0);
-	glTexCoord2f(0.0, 1.0); glVertex3f(-40.0, 40.0, -40.0);
-	glTexCoord2f(1.0, 1.0); glVertex3f(-40.0, 40.0, 40.0);
+	glTexCoord2f(0.0, 0.0);glVertex3f(-40.0, 0.0, 40.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-40.0, 0.0, -40.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(-40.0, 40.0, -40.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(-40.0, 40.0, 40.0);
 	glEnd();
 
 	//右边
-	glBindTexture(GL_TEXTURE_2D, texName[1]);//wall 
+	glBindTexture(GL_TEXTURE_2D, texName[2]);//wall 
 	glBegin(GL_QUADS);
 	glTexCoord2f(1.0, 0.0); glVertex3f(40.0, 0.0, 40.0);
 	glTexCoord2f(0.0, 0.0); glVertex3f(40.0, 0.0, -40.0);
@@ -197,7 +208,7 @@ void Draw_Wall()
 	glEnd();
 
 	//后面
-	glBindTexture(GL_TEXTURE_2D, texName[1]);//wall 
+	glBindTexture(GL_TEXTURE_2D, texName[2]);//wall 
 	glBegin(GL_QUADS);
 	glTexCoord2f(1.0, 0.0); glVertex3f(-40.0, 0.0, -40.0);
 	glTexCoord2f(0.0, 0.0); glVertex3f(40.0, 0.0, -40.0);
@@ -227,9 +238,9 @@ void Draw_Sky()
 }
 void Draw_Building()
 {
-	GLuint tex[6] = { texName[4],texName[4] ,texName[4] ,texName[4] ,texName[4],texName[4] };
+	GLuint tex[6] = { texName[4],texName[4] ,texName[4] ,texName[4] ,texName[5],texName[5] };
 	glPushMatrix();
-	glTranslated(7.5, 10, 2.5);
+	glTranslated(7.5, 6, 2.5);
 	glScalef(5, 20, 5);
 	Draw_SolidCube(tex);
 	glPopMatrix();
@@ -267,21 +278,304 @@ void Draw_Road()
 	glTexCoord2f(1.0, 0.0); glVertex3f(-5.0, 0.1, -5.0);
 	glEnd();
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0, -5);
+	glScalef(8, 1, 1);
+	glBindTexture(GL_TEXTURE_2D, texName[6]);//floor
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5.0, 0.1, 5.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(5.0, 0.1, 5.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(5.0, 0.1, -5.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-5.0, 0.1, -5.0);
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0, 0.1, -25);
+	//glRotatef(90, 0, 1, 0);
+	glScalef(1, 1, 3);
+	glBindTexture(GL_TEXTURE_2D, texName[9]);//floor
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5.0, 0.1, 5.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(5.0, 0.1, 5.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(5.0, 0.1, -5.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-5.0, 0.1, -5.0);
+	glEnd();
+	glPopMatrix();
 }
+void Draw_Grass()
+{
+	glPushMatrix();
+	glTranslatef(22.5, 0.1, -25);
+	glScalef(3.5, 1, 3);
+	glBindTexture(GL_TEXTURE_2D, texName[8]);//草地
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5.0, 0.1, 5.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(5.0, 0.1, 5.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(5.0, 0.1, -5.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-5.0, 0.1, -5.0);
+	glEnd();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-22.5, 0.1, -25);
+	glScalef(3.5, 1, 3);
+	glBindTexture(GL_TEXTURE_2D, texName[8]);//草地
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex3f(-5.0, 0.1, 5.0);
+	glTexCoord2f(0.0, 1.0); glVertex3f(5.0, 0.1, 5.0);
+	glTexCoord2f(1.0, 1.0); glVertex3f(5.0, 0.1, -5.0);
+	glTexCoord2f(1.0, 0.0); glVertex3f(-5.0, 0.1, -5.0);
+	glEnd();
+	glPopMatrix();
+}
+
+void Draw_Building1()
+{
+	glPushMatrix();
+	glTranslatef(-8, 1, 4);//按xyz方向平移
+	glScalef(1, 1, 1);
+	//glRotated(90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[5]);
+	building1.Draw();
+	glPopMatrix();
+}
+void Draw_Building2()
+{
+	glPushMatrix();
+	glTranslatef(10, 3, 3);//按xyz方向平移
+	glScalef(1, 1, 1);
+	//glRotated(90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[5]);
+	building2.Draw();
+	glPopMatrix();
+}
+void Draw_Building3()
+{
+	glPushMatrix();
+	glTranslatef(9, 4, 18);//按xyz方向平移
+	glScalef(1, 1, 1);
+	//glRotated(90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[5]);
+	building3.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(25, 4, 9);//按xyz方向平移
+	glScalef(1, 1, 1);
+	glRotated(-90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[5]);
+	building3.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-25, 4, 9);//按xyz方向平移
+	glScalef(1, 1, 1);
+	glRotated(-90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[5]);
+	building3.Draw();
+	glPopMatrix();
+}
+void Draw_Chair()
+{
+	glPushMatrix();
+	glTranslatef(7, 0.35, -13);//按xyz方向平移
+	glScalef(0.1, 0.1, 0.1);
+	glRotated(-90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[10]);
+	chair.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-7, 0.35, -13);//按xyz方向平移
+	glScalef(0.1, 0.1, 0.1);
+	glRotated(90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[10]);
+	chair.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(7, 0.35, -25);//按xyz方向平移
+	glScalef(0.1, 0.1, 0.1);
+	glRotated(-90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[10]);
+	chair.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-7, 0.35, -25);//按xyz方向平移
+	glScalef(0.1, 0.1, 0.1);
+	glRotated(90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[10]);
+	chair.Draw();
+	glPopMatrix();
+}
+void Draw_Lamp()
+{
+	glPushMatrix();
+	glTranslatef(5.5, 0.1, 0.5);//按xyz方向平移
+	glScalef(0.02, 0.02, 0.02);
+	//glRotated(-90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[11]);
+	lamp.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-5.5, 0.1, 0.5);//按xyz方向平移
+	glScalef(0.02, 0.02, 0.02);
+	glRotated(180, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[11]);
+	lamp.Draw();
+	glPopMatrix();
+}
+
+void Draw_Windmill()
+{
+	frotate1 += 10;
+	if (frotate1 == 360)frotate1 = 0;
+
+	glPushMatrix();
+	glTranslatef(14, 0.25, -20);//按xyz方向平移
+	glScalef(0.1, 0.05, 0.1);
+	glRotated(90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[12]);
+	base.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(14, 8, -17.5);//按xyz方向平移
+	glScalef(0.2, 0.2, 0.2);
+	glRotated(frotate1, 0, 0, 1);
+	glRotated(90, 1, 0, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[12]);
+	leaves.Draw();
+	glPopMatrix();
+}
+void Draw_FerrisWheel()
+{
+	frotate2 += 3;
+	if (frotate2 == 360)frotate2 = 0;
+
+	glPushMatrix();
+	glTranslatef(-14, 0.25, -20);//按xyz方向平移
+	glScalef(0.1, 0.05, 0.1);
+	glRotated(90, 0, 1, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[12]);
+	base.Draw();
+	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(-14, 8, -17.5);//按xyz方向平移
+	glScalef(5, 5, 5);
+	glRotated(frotate2, 0, 0, 1);
+	//glRotated(90, 1, 0, 0);
+	glBindTexture(GL_TEXTURE_2D, texName[12]);
+	wheel.Draw();
+	glPopMatrix();
+}
+
+//画圆形
+void Draw_Circle()
+{
+	glBegin(GL_TRIANGLE_FAN);//扇形连续填充三角形串  
+	glVertex3f(0.0f, 0.0f, 0.0f);
+	int i = 0;
+	for (i = 0; i <= 390; i += 15)
+	{
+		float p = i * 3.14 / 180;
+		glVertex3f(sin(p), cos(p), 0.0f);
+	}
+	glEnd();
+}
+//画圆柱
+void Draw_Cylinder()
+{
+	glBegin(GL_QUAD_STRIP);//连续填充四边形串  
+	int i = 0;
+	for (i = 0; i <= 390; i += 15)
+	{
+		float p = i * 3.14 / 180;
+		glVertex3f(sin(p), cos(p), 1.0f);
+		glVertex3f(sin(p), cos(p), 0.0f);
+	}
+	glEnd();
+	Draw_Circle();
+	glTranslatef(0, 0, 1);
+	Draw_Circle();
+}
+//画圆锥
+void Draw_Cone()
+{
+	glBegin(GL_QUAD_STRIP);//连续填充四边形串  
+	int i = 0;
+	for (i = 0; i <= 390; i += 15)
+	{
+		float p = i * 3.14 / 180;
+		glVertex3f(0, 0, 1.0f);
+		glVertex3f(sin(p), cos(p), 0.0f);
+	}
+	glEnd();
+	Draw_Circle();
+}
+void Draw_Ball()
+{
+	glPushMatrix();
+	glTranslatef(0, 35, 35);
+	glutWireSphere(3, 500, 500);
+	glPopMatrix();
+
+}
+void SetLights()
+{
+	GLfloat light_ambient[] = { 1,165.0/255.0,0.0/255.0};
+	//	GLfloat light_ambient[] = { 1,1,1 };
+	GLfloat light_diffuse[] = { 1,165.0 / 255.0,0.0 / 255.0 };
+	GLfloat light_position[] = { 38,1,38,1 };
+
+	
+	//灯光
+	glLightfv(GL_LIGHT0, GL_AMBIENT, light_ambient);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	//glLightfv(GL_LIGHT1, GL_AMBIENT, light1_ambient);
+	//glLightfv(GL_LIGHT1, GL_DIFFUSE, light1_diffuse);
+	//glLightfv(GL_LIGHT1, GL_POSITION, light1_position);
+	//glLightModeli(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	//glEnable(GL_LIGHT1);
+}
+
 void init(void)
 {
 	//绑定所需的纹理
 	texName[0] = load_tex("top.bmp");//天空贴图
-	texName[1] = load_tex("sky2.dib");//海-天贴图
-	texName[2] = load_tex("sky3.dib");//山-天贴图
+	texName[1] = load_tex("dawn.bmp");//黄昏贴图
+	texName[2] = load_tex("dark.bmp");//黄昏暗贴图
 	texName[3] = load_tex("buttom.bmp");//大地贴图
-	texName[4] = load_tex("window1.bmp");//大厦外墙贴图
-	texName[5] = load_tex("surface.bmp");//建筑表面贴图
+	texName[4] = load_tex("window2.bmp");//大厦外墙贴图
+	texName[5] = load_tex("surface2.dib");//建筑表面贴图
 	texName[6] = load_tex("road.dib");//高速公路贴图
 	texName[7] = load_tex("malu.dib");//马路贴图
+	texName[8] = load_tex("grass.bmp");//草地贴图
+	texName[9] = load_tex("xiaolu.dib");//小路贴图
+	texName[10] = load_tex("chair.dib");//椅子
+	texName[11] = load_tex("lamp.dib");//路灯
+	texName[12] = load_tex("wood.bmp");
 	//加载obj格式文件
-	//desk = ObjLoader("desk.obj");
-	
+	chair = ObjLoader("chair.obj");
+	building1 = ObjLoader("building1.obj");
+	building2 = ObjLoader("building2.obj");
+	building3 = ObjLoader("teachhall.obj");
+	lamp = ObjLoader("lamp.obj");
+	teachhall = ObjLoader("teachhall.obj");
+	base = ObjLoader("fengchebase.obj");
+	leaves = ObjLoader("fengcheye.obj");
+	wheel=  ObjLoader("revolve.obj");
+
+
+
 }
 void display(void)
 {
@@ -302,7 +596,7 @@ void display(void)
 	glShadeModel(GL_FLAT);
 
 	//灯光
-//	SetLights();
+	SetLights();
 	//深度
 	glDepthFunc(GL_LESS);
 	glEnable(GL_DEPTH_TEST);
@@ -312,15 +606,23 @@ void display(void)
 
 
 	glEnable(GL_TEXTURE_2D);//启用纹理
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);//纹理和材质混合方式
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);//纹理和材质混合方式
 
 	glPushMatrix();
 	Draw_Wall();
 	Draw_Floor();
 	Draw_Sky();
-	Draw_Building();
+	Draw_Grass();
+	//Draw_Building();
 	Draw_Road();
-
+	Draw_Building1();
+	Draw_Building2();
+	Draw_Chair();
+	Draw_Lamp();
+	Draw_Building3();
+	Draw_Windmill();
+	Draw_FerrisWheel();
+	Draw_Ball();
 	glPopMatrix();
 	glutSwapBuffers();//交换双缓存
 }
@@ -349,15 +651,21 @@ void keyboard(unsigned char key, int x, int y)
 
 	case 'w':
 
-		eye[0] = eye[0] + 0.2 * sin(direction * PI / 180);
-		eye[2] = eye[2] + 0.2 * cos(direction * PI / 180);
+		eye[0] = eye[0] + 0.5 * sin(direction * PI / 180);
+		eye[2] = eye[2] + 0.5 * cos(direction * PI / 180);
 		break;
 
 	case 's':
-		eye[0] = eye[0] - 0.2 * sin(direction * PI / 180);
-		eye[2] = eye[2] - 0.2 * cos(direction * PI / 180);
+		eye[0] = eye[0] - 0.5 * sin(direction * PI / 180);
+		eye[2] = eye[2] - 0.5 * cos(direction * PI / 180);
 		break;	
 
+	case 'z':
+		center[1] += 1;
+		break;
+	case 'c':
+		center[1] -= 1;
+		break;
 	case 27:
 		exit(0);
 		break;
@@ -415,7 +723,7 @@ int main(int argc, char* argv[])
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(windowWidthH, windowHeightH);
 	glutInitWindowPosition(80, 80);
-	glutCreateWindow("Room Scene");
+	glutCreateWindow("City Zoom");
 
 	init();
 	glutDisplayFunc(display);
